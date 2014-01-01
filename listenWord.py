@@ -17,7 +17,7 @@ green = ( 0, 255, 0)
 red = ( 255, 0, 0)
 
 def main():
-
+    pygame.mixer.pre_init(44100, -16, 2, 2048) # setup mixer to avoid sound lag
     pygame.init()
 
     screen_width = 1024
@@ -52,8 +52,8 @@ def main():
                     sys.exit()
                 if event.key == pygame.K_SPACE:
                     numberFruit = random.randint(1, len(fruit_list)) - 1
-                    cmd = "mplayer fruit/" + fruit_list[numberFruit] + ".wav"
-                    status = os.popen(cmd)                   
+                    fruit = pygame.mixer.Sound(os.path.join('fruit', fruit_list[numberFruit] + '.wav'))
+                    fruit.play()                   
 
         screen.fill(white)
 
