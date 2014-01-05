@@ -22,36 +22,18 @@ class FruitClass:
     x = 0
     y = 0
 
-    def __init__(self, name, x, y):
-        self.name = name
-        self.x = x
-        self.y = y
+    def __init__(self):
+        self.name = ""
+        self.x = 0
+        self.y = 0
 
     
-    def setImage(self, name):   
-        self.image = pygame.image.load(name).convert_alpha()
-        self.image.set_colorkey(white)
-        self.image_width  = self.image.get_width()
-        self.image_height = self.image.get_height()
-        self.image = pygame.transform.scale(self.image, (self.image_width/2, self.image_height/2))
-
-    def getImage(self):
-        return self.image
-
-    def getName(self):
-        return self.name
-    
-    def getX(self):
-        return self.x
-
-    def getY(self):
-        return self.y
-
-    def setX(self, x):
-        self.x = x
-
-    def setY(self, y):
-        self.y = y
+    def image(name):   
+        fruit_image = pygame.image.load(name).convert_alpha()
+        fruit_image.set_colorkey(white)
+        fruit_image_width = fruit_image.get_width()
+        fruit_image_height = fruit_image.get_height()
+        fruit_image = pygame.transform.scale(fruit_image, (fruit_image_width/2, fruit_image_height/2))
 
 
 def fruitImage(imageFile):
@@ -88,9 +70,7 @@ def main():
 
     for line in line_list:
         line = line[:-1]
-        fruit = FruitClass(line, random.randint(1, 10) * 100, random.randint(1, 70)*10)
-        fruit.setImage("fruit/" + line + ".png")
-        fruit_list.append(fruit)
+        fruit_list.append(line)
 
 
     while done == False:
@@ -103,14 +83,8 @@ def main():
                     sys.exit()
                 if event.key == pygame.K_SPACE:
                     numberFruit = random.randint(1, len(fruit_list)) - 1
-                    fruit = pygame.mixer.Sound(os.path.join('fruit', fruit_list[numberFruit].getName() + '.wav'))
+                    fruit = pygame.mixer.Sound(os.path.join('fruit', fruit_list[numberFruit] + '.wav'))
                     fruit.play()                   
-                    for fruit in fruit_list:
-                        fruit.setX(random.randint(1, 10) * 100)
-                        fruit.setY(random.randint(1, 70) * 10)
-
-
-
 
         screen.fill(white)
 
@@ -121,7 +95,8 @@ def main():
         screen.blit(infoText, [10, 30])
  
         for fruit in fruit_list:
-            screen.blit(fruit.getImage(), [fruit.getX() ,fruit.getY()])
+            fruit_image = fruitImage("fruit/"+fruit+".png")   
+            screen.blit(fruit_image, [random.randint(1, 10) * 100, random.randint(1, 70)*10])
 
         pygame.display.flip()
         clock.tick(20)
